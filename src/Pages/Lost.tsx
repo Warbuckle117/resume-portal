@@ -1,8 +1,8 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import {Link} from "react-router-dom";
+import React from "react";
 
-export default function About() {
-    return(
+const Lost = () => {
+    return (
         <div style={{
             display: "flex",
             flexDirection: "column",
@@ -11,14 +11,13 @@ export default function About() {
             height: "100%"}}
         >
             <h1>
-                About Page
+                Opps that page doesn't exist
             </h1>
             <p>
-                This is the About page
-            </p>
-            <p>
-                return to <Link to="/">Home</Link>
+                You seem to be lost return to <Link to="/">Home</Link>
             </p>
         </div>
     )
 }
+
+export default Lost;

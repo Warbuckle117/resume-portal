@@ -2,6 +2,7 @@ import './App.css';
 import {Routes, Route} from "react-router-dom";
 import Splashpage from "./Pages/Splashpage.tsx";
 import About from "./Pages/About.tsx";
+import Lost from './Pages/Lost.tsx';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
           <Routes>
               <Route path="/" element={<Splashpage/>} />
               <Route path="/About" element={<About/>} />
+              <Route path="/*" element={<Lost/>} />
           </Routes>
       </header>
     </div>
