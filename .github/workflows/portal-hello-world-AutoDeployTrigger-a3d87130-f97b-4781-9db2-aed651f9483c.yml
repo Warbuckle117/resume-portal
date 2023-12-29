@@ -1,0 +1,42 @@
+name: Trigger auto deployment for portal-hello-world
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/portal-hello-world-AutoDeployTrigger-a3d87130-f97b-4781-9db2-aed651f9483c.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.PORTALHELLOWORLD_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: docker.io
+          registryUsername: ${{ secrets.PORTALHELLOWORLD_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.PORTALHELLOWORLD_REGISTRY_PASSWORD }}
+          containerAppName: portal-hello-world
+          resourceGroup: portfolioPortalRG
+          imageToBuild: warbuckle117/warbuckle117/resume-portal:${{ github.sha }}
+          dockerfilePath: Dockerfile
+
+     
+
