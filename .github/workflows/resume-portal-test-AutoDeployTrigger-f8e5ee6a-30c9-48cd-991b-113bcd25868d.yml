@@ -1,0 +1,42 @@
+name: Trigger auto deployment for resume-portal-test
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/resume-portal-test-AutoDeployTrigger-f8e5ee6a-30c9-48cd-991b-113bcd25868d.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.RESUMEPORTALTEST_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: docker.io
+          registryUsername: ${{ secrets.RESUMEPORTALTEST_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.RESUMEPORTALTEST_REGISTRY_PASSWORD }}
+          containerAppName: resume-portal-test
+          resourceGroup: portfolioPortalRG
+          imageToBuild: warbuckle117/resume-portal:${{ github.sha }}
+          dockerfilePath: Dockerfile
+
+     
+
