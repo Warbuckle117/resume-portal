@@ -12,10 +12,10 @@ export default function Splashpage() {
             height: "100%"}}
         >
             <h1>
-                Opps that page doesn't exist
+                Splash Page
             </h1>
             <p>
-                You seem to be lost return to <Link to="/">Home</Link>
+                Try <Link to="/About">About</Link> Page as well
             </p>
         </div>
     )
